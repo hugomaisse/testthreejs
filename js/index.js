@@ -22,7 +22,8 @@ function init(){
 
     // on créé un  cube au quel on définie un matériau puis on l’ajoute à la scène
     var cube = new THREE.CubeGeometry( 200, 200, 200 );
-    var texture = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+    var texture = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
+    //var texture = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
     mesh = new THREE.Mesh( cube, texture );
     scene.add( mesh );
 
