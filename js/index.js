@@ -1,7 +1,8 @@
 var renderer, scene, camera, mesh;
 
 init();
-animate();
+animatecube();
+
 
 function init(){
     // on initialise le moteur de rendu
@@ -25,20 +26,28 @@ function init(){
     var texture = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
     //var texture = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
     mesh = new THREE.Mesh( cube, texture );
+    mesh.position.set( 0, 0, -50 );
+    mesh.__dirtyPosition = true;
     scene.add( mesh );
+
+    
 
     // on ajoute une lumière blanche
     var lumiere = new THREE.DirectionalLight( 0xffffff, 1.0 );
     lumiere.position.set( 0, 0, 400 );
     scene.add( lumiere );
+
 }
 
-function animate(){
+function animatecube(){
     // on appel la fonction animate() récursivement à chaque frame
-    requestAnimationFrame( animate );
+    requestAnimationFrame( animatecube );
     // on fait tourner le cube sur ses axes x et y
     mesh.rotation.x += 0.01;
     mesh.rotation.y += 0.02;
     // on effectue le rendu de la scène
     renderer.render( scene, camera );
 }
+
+//http://localhost:8000/
+//python -m http.server
