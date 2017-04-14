@@ -34,8 +34,16 @@ function init(){
     mesh1.__dirtyPosition = true;
     scene.add( mesh, mesh1 );
 
+
+    var cube3 = new THREE.CubeGeometry( 200, 200, 200 );
+    var texture3 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
+    mesh3 = new THREE.Mesh( cube3, texture3 );
+    scene.add( mesh3 );
+
+
     // CYLINDER
-    var cyl_material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+    //var cyl_material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+    var cyl_material = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
     var cyl_width = 50;
     var cyl_height = 400;
     // THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight, openEnded )
@@ -53,6 +61,11 @@ function init(){
     lumiere.position.set( 0, 0, 400 );
     scene.add( lumiere );
 
+    window.addEventListener("resize", function () {
+        if (engine) {
+            engine.resize();
+        }
+    },false);
 }
 
 function animate(){
@@ -73,5 +86,27 @@ function animate(){
     renderer.render( scene, camera );
 }
 
+// function animate() {
+//     requestAnimationFrame(animate);
+//     camera.rotation.y += rotation;
+//     camera.matrix.extractBasis(right,up,at);
+//     if(directions.forward) {
+//         camera.position.add(at.multiplyScalar(-5));
+//         camera.matrix.extractBasis(right,up,at);
+//     }
+//     if(directions.backward) {
+//         camera.position.add(at.multiplyScalar(5));
+//         camera.matrix.extractBasis(right,up,at);
+//     }
+//     if(directions.left) {
+//         camera.position.add(right.multiplyScalar(-5));
+//         camera.matrix.extractBasis(right,up,at);
+//     }
+//     if(directions.right) {
+//         camera.position.add(right.multiplyScalar(5));
+//         camera.matrix.extractBasis(right,up,at);
+//     }
+//     renderer.render(scene, camera);
+// }
 //http://localhost:8000/
 //python -m http.server
