@@ -32,17 +32,10 @@ function init(){
     mesh1.position.set( -500, 0, -50 );
     mesh.__dirtyPosition = true;
     mesh1.__dirtyPosition = true;
-    scene.add( mesh, mesh1 );
-
-
-    var cube3 = new THREE.CubeGeometry( 200, 200, 200 );
-    var texture3 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
-    mesh3 = new THREE.Mesh( cube3, texture3 );
-    scene.add( mesh3 );
-
+    //scene.add( mesh, mesh1 );
 
     // CYLINDER
-    //var cyl_material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+
     var cyl_material = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
     var cyl_width = 50;
     var cyl_height = 400;
@@ -53,7 +46,17 @@ function init(){
     var cylinder = new THREE.Mesh(cylGeometry, cyl_material);
     cylinder.position.set( 0, -200, -50 );
     cylinder.__dirtyPosition = true;
-    scene.add( cylinder );
+    //scene.add( cylinder );
+
+
+    //parents mesh
+
+    mesh3 = new THREE.Mesh();
+    mesh3.add(mesh);
+    mesh3.add(mesh1);
+    mesh3.add(cylinder)
+    scene.add(mesh3);
+
 
 
     // on ajoute une lumière blanche
@@ -61,52 +64,28 @@ function init(){
     lumiere.position.set( 0, 0, 400 );
     scene.add( lumiere );
 
-    window.addEventListener("resize", function () {
-        if (engine) {
-            engine.resize();
-        }
-    },false);
+    // window.addEventListener("resize", function () {
+    //     if (engine) {
+    //         engine.resize();
+    //     }
+    // },false);
 }
 
 function animate(){
     // on appel la fonction animate() récursivement à chaque frame
     requestAnimationFrame( animate );
-    // on fait tourner le cube sur ses axes x et y
-    // for(let mesh of scene){
-    //   this.rotation.x += 0.01;
-    //   this.rotation.y += 0.02;
-    // }
-    mesh.rotation.x += 0.01;
-    mesh1.rotation.x += 0.01;
+      mesh3.rotation.x += 0.01;
+      mesh3.rotation.y += 0.02;
+    // mesh.rotation.x += 0.01;
+    // mesh1.rotation.x += 0.01;
 
-    mesh.rotation.y += 0.02;
-    mesh1.rotation.y += 0.02;
+
+    // mesh.rotation.y += 0.02;
+    // mesh1.rotation.y += 0.02;
 
     // on effectue le rendu de la scène
     renderer.render( scene, camera );
 }
 
-// function animate() {
-//     requestAnimationFrame(animate);
-//     camera.rotation.y += rotation;
-//     camera.matrix.extractBasis(right,up,at);
-//     if(directions.forward) {
-//         camera.position.add(at.multiplyScalar(-5));
-//         camera.matrix.extractBasis(right,up,at);
-//     }
-//     if(directions.backward) {
-//         camera.position.add(at.multiplyScalar(5));
-//         camera.matrix.extractBasis(right,up,at);
-//     }
-//     if(directions.left) {
-//         camera.position.add(right.multiplyScalar(-5));
-//         camera.matrix.extractBasis(right,up,at);
-//     }
-//     if(directions.right) {
-//         camera.position.add(right.multiplyScalar(5));
-//         camera.matrix.extractBasis(right,up,at);
-//     }
-//     renderer.render(scene, camera);
-// }
 //http://localhost:8000/
 //python -m http.server
