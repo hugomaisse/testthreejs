@@ -58,29 +58,50 @@ function init(){
     cylinder.applyMatrix( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 90 ) ) );
     //scene.add( cylinder );
 
+    //cylinder 1
     var cyl_material1 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
     var cyl_width1 = 50;
     var cyl_height1 = 500;
     // THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight, openEnded )
     var cylGeometry1 = new THREE.CylinderGeometry(cyl_width1, cyl_width1, cyl_height1, 100, 10, false);
-    //cylGeometry1.applyMatrix( new THREE.Matrix4().makeTranslation( 0, cyl_height/2, 0 ) );
-    // translate the cylinder geometry so that the desired point within the geometry is now at the origin
-    //cylGeometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, cyl_height/2, 0 ) );
     var cylinder1 = new THREE.Mesh(cylGeometry1, cyl_material1);
-
     //rotation a 90°
     cylinder1.applyMatrix( new THREE.Matrix4().makeRotationX( THREE.Math.degToRad( 0 ) ) );
     cylinder1.applyMatrix( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 90 ) ) );
     cylinder1.position.set( -500, cyl_height1/2, 0 );
     cylinder1.__dirtyPosition = true;
-    //parents mesh
 
+
+    //cylinder 2
+    var cyl_material2 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
+    var cyl_width2= 50;
+    var cyl_height2 = 500;
+    // THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight, openEnded )
+    var cylGeometry2 = new THREE.CylinderGeometry(cyl_width2, cyl_width2, cyl_height2, 100, 10, false);
+    var cylinder2 = new THREE.Mesh(cylGeometry2, cyl_material2);
+    //rotation a 90°
+    cylinder2.applyMatrix( new THREE.Matrix4().makeRotationX( THREE.Math.degToRad( 90 ) ) );
+    cylinder2.applyMatrix( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 180 ) ) );
+    cylinder2.position.set( -500, 0, cyl_height2/2 );
+    cylinder2.__dirtyPosition = true;
+
+    //sphere
+    var sph = new THREE.SphereGeometry(130, 32, 32 );
+    var sph_mat = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
+    var sphere = new THREE.Mesh( sph, sph_mat );
+    sphere.position.set( -500, 0, 500 );
+    sphere.__dirtyPosition = true;
+
+
+    //parents mesh
     mesh3 = new THREE.Mesh();
     mesh3.add(mesh);
     mesh3.add(mesh1);
     mesh3.add(mesh2);
-    mesh3.add(cylinder)
-    mesh3.add(cylinder1)
+    mesh3.add(cylinder);
+    mesh3.add(cylinder1);
+    mesh3.add(cylinder2);
+    mesh3.add(sphere);
     scene.add(mesh3);
 
 
