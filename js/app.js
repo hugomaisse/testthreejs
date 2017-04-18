@@ -24,37 +24,63 @@ function init(){
     // on créé un  cube au quel on définie un matériau puis on l’ajoute à la scène
     var cube1 = new THREE.CubeGeometry( 200, 200, 200 );
     var cube2 = new THREE.CubeGeometry( 200, 200, 200 );
+    var cube3 = new THREE.CubeGeometry( 200, 200, 200 );
     var texture1 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
-    var texture2 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
+    var texture2 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
+    var texture3 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
+
     mesh = new THREE.Mesh( cube1, texture1 );
     mesh1 = new THREE.Mesh( cube2, texture2 );
-    mesh.position.set( 500, 0, -50 );
-    mesh1.position.set( -500, 0, -50 );
+    mesh2 = new THREE.Mesh( cube3, texture3 );
+    mesh.position.set( 500, 0, 0 );
+    mesh1.position.set( -500, 0, 0 );
+    mesh2.position.set( -500, 500, 0);
     mesh.__dirtyPosition = true;
     mesh1.__dirtyPosition = true;
+    mesh2.__dirtyPosition = true;
     //scene.add( mesh, mesh1 );
 
     // CYLINDER
 
     var cyl_material = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
     var cyl_width = 50;
-    var cyl_height = 400;
+    var cyl_height = 1000;
     // THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight, openEnded )
     var cylGeometry = new THREE.CylinderGeometry(cyl_width, cyl_width, cyl_height, 100, 10, false);
     // translate the cylinder geometry so that the desired point within the geometry is now at the origin
-    cylGeometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, cyl_height/2, 0 ) );
+    //cylGeometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, cyl_height/2, 0 ) );
     var cylinder = new THREE.Mesh(cylGeometry, cyl_material);
-    cylinder.position.set( 0, -200, -50 );
-    cylinder.__dirtyPosition = true;
+    //cylinder.position.set( 0, 0, -50 );
+    //cylinder.__dirtyPosition = true;
+
+    //rotation a 90°
+    cylinder.applyMatrix( new THREE.Matrix4().makeRotationX( THREE.Math.degToRad( 90 ) ) );
+    cylinder.applyMatrix( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 90 ) ) );
     //scene.add( cylinder );
 
+    var cyl_material1 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
+    var cyl_width1 = 50;
+    var cyl_height1 = 500;
+    // THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight, openEnded )
+    var cylGeometry1 = new THREE.CylinderGeometry(cyl_width1, cyl_width1, cyl_height1, 100, 10, false);
+    //cylGeometry1.applyMatrix( new THREE.Matrix4().makeTranslation( 0, cyl_height/2, 0 ) );
+    // translate the cylinder geometry so that the desired point within the geometry is now at the origin
+    //cylGeometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, cyl_height/2, 0 ) );
+    var cylinder1 = new THREE.Mesh(cylGeometry1, cyl_material1);
 
+    //rotation a 90°
+    cylinder1.applyMatrix( new THREE.Matrix4().makeRotationX( THREE.Math.degToRad( 0 ) ) );
+    cylinder1.applyMatrix( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 90 ) ) );
+    cylinder1.position.set( -500, cyl_height1/2, 0 );
+    cylinder1.__dirtyPosition = true;
     //parents mesh
 
     mesh3 = new THREE.Mesh();
     mesh3.add(mesh);
     mesh3.add(mesh1);
+    mesh3.add(mesh2);
     mesh3.add(cylinder)
+    mesh3.add(cylinder1)
     scene.add(mesh3);
 
 
