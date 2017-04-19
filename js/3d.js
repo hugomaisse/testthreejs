@@ -7,7 +7,7 @@ animate();
 function init(){
     // on initialise le moteur de rendu
     renderer = new THREE.WebGLRenderer();
-
+    renderer.setClearColor( 0xffffff, 1);
     // si WebGL ne fonctionne pas sur votre navigateur vous pouvez utiliser le moteur de rendu Canvas à la place
     // renderer = new THREE.CanvasRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -17,9 +17,22 @@ function init(){
     scene = new THREE.Scene();
 
     // on initialise la camera que l’on place ensuite sur la scène
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000 );
-    camera.position.set(0, 0, 1000);
-    scene.add(camera);
+    // camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000 );
+    // camera.position.set(0, 0, 1000);
+    // scene.add(camera);
+    camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.set(0, 0, 1000);
+				controls = new THREE.TrackballControls( camera );
+				controls.rotateSpeed = 1.0;
+				controls.zoomSpeed = 1.2;
+				controls.panSpeed = 0.8;
+				controls.noZoom = false;
+				controls.noPan = false;
+				controls.staticMoving = true;
+				controls.dynamicDampingFactor = 0.3;
+				controls.keys = [ 65, 83, 68 ];
+				controls.addEventListener( 'change', render );
+
 
     // on créé un  cube au quel on définie un matériau puis on l’ajoute à la scène
     var cube1 = new THREE.CubeGeometry( 200, 200, 200 );
@@ -110,29 +123,42 @@ function init(){
     var lumiere = new THREE.DirectionalLight( 0xffffff, 1.0 );
     lumiere.position.set( 0, 0, 400 );
     scene.add( lumiere );
+    var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+    scene.add( light );
+    var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    dirLight.position.set(500, 500, 50);
+    scene.add(dirLight);
 
-    // window.addEventListener("resize", function () {
-    //     if (engine) {
-    //         engine.resize();
-    //     }
-    // },false);
+    //resize
+    window.addEventListener( 'resize', onWindowResize, false );
+
+    //rendering all
+    render()
 }
 
 function animate(){
     // on appel la fonction animate() récursivement à chaque frame
     requestAnimationFrame( animate );
-      mesh3.rotation.x += 0.01;
-      mesh3.rotation.y += 0.02;
-    // mesh.rotation.x += 0.01;
-    // mesh1.rotation.x += 0.01;
-
-
-    // mesh.rotation.y += 0.02;
-    // mesh1.rotation.y += 0.02;
+      // mesh3.rotation.x += 0.01;
+      // mesh3.rotation.y += 0.02;
+      controls.update();
 
     // on effectue le rendu de la scène
-    renderer.render( scene, camera );
+    //renderer.render( scene, camera );
 }
+function render() {
+				renderer.render( scene, camera );
+				//stats.update();
+			}
+
+
+function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				controls.handleResize();
+				render();
+			}
 
 //http://localhost:8000/
 //python -m http.server
