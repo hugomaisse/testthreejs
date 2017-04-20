@@ -7,7 +7,7 @@ animate();
 function init(){
     // on initialise le moteur de rendu
     renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor( 0xffffff, 1);
+    //renderer.setClearColor( 0xffffff, 1);
     // si WebGL ne fonctionne pas sur votre navigateur vous pouvez utiliser le moteur de rendu Canvas à la place
     // renderer = new THREE.CanvasRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -21,7 +21,7 @@ function init(){
     // camera.position.set(0, 0, 1000);
     // scene.add(camera);
     camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 10000 );
-				camera.position.set(0, 0, 1000);
+				camera.position.set(0, 500, 1500);
 				controls = new THREE.TrackballControls( camera );
 				controls.rotateSpeed = 1.0;
 				controls.zoomSpeed = 1.2;
@@ -53,7 +53,7 @@ function init(){
     mesh2.__dirtyPosition = true;
     //scene.add( mesh, mesh1 );
 
-    // CYLINDER
+    // CYLINDER direction en droite avec cube
 
     var cyl_material = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
     var cyl_width = 50;
@@ -71,7 +71,7 @@ function init(){
     cylinder.applyMatrix( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 90 ) ) );
     //scene.add( cylinder );
 
-    //cylinder 1
+    //cylinder 1 direction haut avec cube
     var cyl_material1 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
     var cyl_width1 = 50;
     var cyl_height1 = 500;
@@ -85,7 +85,7 @@ function init(){
     cylinder1.__dirtyPosition = true;
 
 
-    //cylinder 2
+    //cylinder 2 direction devant avec sphere
     var cyl_material2 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
     var cyl_width2= 50;
     var cyl_height2 = 500;
@@ -98,13 +98,32 @@ function init(){
     cylinder2.position.set( -500, 0, cyl_height2/2 );
     cylinder2.__dirtyPosition = true;
 
-    //sphere
+    //cylinder 3 direction derriere
+    var cyl_material3 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
+    var cyl_width3= 50;
+    var cyl_height3 = 500;
+    // THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight, openEnded )
+    var cylGeometry3 = new THREE.CylinderGeometry(cyl_width3, cyl_width3, cyl_height3, 100, 10, false);
+    var cylinder3 = new THREE.Mesh(cylGeometry3, cyl_material3);
+    //rotation a 90°
+    cylinder3.applyMatrix( new THREE.Matrix4().makeRotationX( THREE.Math.degToRad( 90 ) ) );
+    cylinder3.applyMatrix( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 180 ) ) );
+    cylinder3.position.set( -500, 0, -(cyl_height3)/2 );
+    cylinder3.__dirtyPosition = true;
+
+    //sphere devant
     var sph = new THREE.SphereGeometry(130, 32, 32 );
     var sph_mat = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
     var sphere = new THREE.Mesh( sph, sph_mat );
     sphere.position.set( -500, 0, 500 );
     sphere.__dirtyPosition = true;
 
+    //sphere derriere
+    var sph1 = new THREE.SphereGeometry(130, 32, 32 );
+    var sph_mat1 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
+    var sphere1 = new THREE.Mesh( sph1, sph_mat1 );
+    sphere1.position.set( -500, 0, -500 );
+    sphere.__dirtyPosition = true;
 
     //parents mesh
     mesh3 = new THREE.Mesh();
@@ -114,7 +133,9 @@ function init(){
     mesh3.add(cylinder);
     mesh3.add(cylinder1);
     mesh3.add(cylinder2);
+    mesh3.add(cylinder3);
     mesh3.add(sphere);
+    mesh3.add(sphere1);
     scene.add(mesh3);
 
 
@@ -125,7 +146,7 @@ function init(){
     scene.add( lumiere );
     var light = new THREE.AmbientLight( 0x404040 ); // soft white light
     scene.add( light );
-    var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    var dirLight = new THREE.DirectionalLight(0xffffff, 0.3);
     dirLight.position.set(500, 500, 50);
     scene.add(dirLight);
 
