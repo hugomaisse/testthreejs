@@ -111,6 +111,33 @@ function init(){
     cylinder3.position.set( -500, 0, -(cyl_height3)/2 );
     cylinder3.__dirtyPosition = true;
 
+    //cylinder 3 direction gauche
+    var cyl_material4 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
+    var cyl_width4= 50;
+    var cyl_height4 = 750;
+    // THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight, openEnded )
+    var cylGeometry4 = new THREE.CylinderGeometry(cyl_width4, cyl_width4, cyl_height4, 100, 10, false);
+    var cylinder4 = new THREE.Mesh(cylGeometry4, cyl_material4);
+    //rotation a 90°
+    cylinder4.applyMatrix( new THREE.Matrix4().makeRotationX( THREE.Math.degToRad( 90 ) ) );
+    cylinder4.applyMatrix( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 90 ) ) );
+    cylinder4.position.set( -900, 0, 0 );
+    cylinder4.__dirtyPosition = true;
+
+
+    //cylinder 1 direction bas avec sphere
+    var cyl_material5 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/wood.jpg') });
+    var cyl_width5 = 50;
+    var cyl_height5 = 750;
+    // THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight, openEnded )
+    var cylGeometry5 = new THREE.CylinderGeometry(cyl_width5, cyl_width5, cyl_height5, 100, 10, false);
+    var cylinder5 = new THREE.Mesh(cylGeometry5, cyl_material5);
+    //rotation a 90°
+    cylinder5.applyMatrix( new THREE.Matrix4().makeRotationX( THREE.Math.degToRad( 0 ) ) );
+    cylinder5.applyMatrix( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 90 ) ) );
+    cylinder5.position.set( -500, -(cyl_height5/2), 0 );
+    cylinder5.__dirtyPosition = true;
+
     //sphere devant
     var sph = new THREE.SphereGeometry(130, 32, 32 );
     var sph_mat = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
@@ -125,6 +152,19 @@ function init(){
     sphere1.position.set( -500, 0, -500 );
     sphere.__dirtyPosition = true;
 
+    //sphere gauche
+    var sph2 = new THREE.SphereGeometry(130, 32, 32 );
+    var sph_mat2 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
+    var sphere2 = new THREE.Mesh( sph2, sph_mat2 );
+    sphere2.position.set( -1250, 0, 0 );
+    sphere.__dirtyPosition = true;
+    //sphere dessous
+    var sph3 = new THREE.SphereGeometry(130, 32, 32 );
+    var sph_mat3 = new THREE.MeshPhongMaterial({ transparent: false, map: THREE.ImageUtils.loadTexture('images/metal1.jpg') });
+    var sphere3 = new THREE.Mesh( sph3, sph_mat3 );
+    sphere3.position.set( -500, -750, 0 );
+    sphere.__dirtyPosition = true;
+
     //parents mesh
     mesh3 = new THREE.Mesh();
     mesh3.add(mesh);
@@ -134,8 +174,12 @@ function init(){
     mesh3.add(cylinder1);
     mesh3.add(cylinder2);
     mesh3.add(cylinder3);
+    mesh3.add(cylinder4);
+    mesh3.add(cylinder5);
     mesh3.add(sphere);
     mesh3.add(sphere1);
+    mesh3.add(sphere2);
+    mesh3.add(sphere3);
     scene.add(mesh3);
 
 
@@ -144,7 +188,23 @@ function init(){
     var lumiere = new THREE.DirectionalLight( 0xffffff, 1.0 );
     lumiere.position.set( 0, 0, 400 );
     scene.add( lumiere );
+    var li = new THREE.Light( 0xffffff, 1 );
+    scene.add( li );
+    var spotLight = new THREE.SpotLight( 0xffffff );
+    spotLight.position.set( -100, 1000, 100 );
+
+    spotLight.castShadow = true;
+
+    spotLight.shadow.mapSize.width = 1024;
+    spotLight.shadow.mapSize.height = 1024;
+
+    spotLight.shadow.camera.near = 500;
+    spotLight.shadow.camera.far = 4000;
+    spotLight.shadow.camera.fov = 30;
+    scene.add( spotLight );
+
     var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+    light.position.set(500, 500, 50);
     scene.add( light );
     var dirLight = new THREE.DirectionalLight(0xffffff, 0.3);
     dirLight.position.set(500, 500, 50);
